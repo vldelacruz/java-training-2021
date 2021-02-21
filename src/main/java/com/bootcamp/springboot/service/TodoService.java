@@ -1,66 +1,47 @@
 package com.bootcamp.springboot.service;
 
-import com.bootcamp.springboot.config.DatabaseConfig;
 import com.bootcamp.springboot.model.Todo;
+import com.bootcamp.springboot.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TodoService {
 
     public static ArrayList<Todo> todoList = new ArrayList<>();
-    DatabaseService databaseService;
 
     @Autowired
-    public TodoService(DatabaseService databaseService) {
-        this.databaseService = databaseService;
+    TodoRepository todoRepository;
+
+    @Autowired
+    public TodoService() {
+
     }
 
-    public ArrayList<Todo> getAllTodos() {
-        String conn = this.databaseService.getDatabaseConnection();
-        return todoList;
+    public List<Todo> getAllTodos() {
+        return todoRepository.findAll();
     }
 
-    public Todo getTodoById(Todo todo) {
-        for (Todo item : todoList) {
-            if (item.getId() == todo.getId()) {
-                return item;
-            }
-        }
-        return todo;
+    public Optional<Todo> getTodoById(Todo todo) {
+        return todoRepository.findById(todo.getId());
     }
 
     public void setTodoDescription(Todo todo) {
-        for (Todo item : todoList) {
-            if (item.getId() == todo.getId()) {
-                item.setDescription(todo.getDescription());
-            }
-        }
+        todoRepository.save(todo);
     }
 
 
     public void deleteTodo(Todo todo) {
-        Todo todo1 = new Todo();
-        for (Todo item : todoList) {
-            if (item.getId() == todo.getId()) {
-                todo1 = item;
-            }
-        }
-        todoList.remove(todo1);
+        todoRepository.delete(todo);
     }
 
 
     public void AddNewTodo(Todo todo) {
-
-        if (todoList.size() == 0) {
-            todo.setId(1);
-        } else {
-            todo.setId(todoList.get(todoList.size() - 1).getId() + 1);
-        }
-        todoList.add(todo);
+        todoRepository.save(todo);
     }
 
 }

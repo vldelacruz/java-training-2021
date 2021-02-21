@@ -22,26 +22,26 @@ public class TodoController {
         this.todoService = todoService;
     }
 
+
     @GetMapping("/list")
     public String List(Model model) {
         model.addAttribute("todoList",this.todoService.getAllTodos());
-        return "list";
+        return "todo-list";
     }
 
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("todo",new Todo());
         model.addAttribute("action","create");
-        return "create";
+        return "todo-create";
     }
 
     @GetMapping("/edit")
     public String update(@ModelAttribute Todo todo,Model model) {
         model.addAttribute("todo",todoService.getTodoById(todo));
         model.addAttribute("action","edit");
-        return "create";
+        return "todo-create";
     }
-
 
 
     @PostMapping("/add-todo")

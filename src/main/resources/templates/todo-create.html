@@ -10,12 +10,29 @@
 <body>
     <div class="container">
 
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="#">TodoApp</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/todo/list">Todos <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/list">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
         <br>
 
         <h1 th:if="${action.equals('create')}">CREATE NEW:</h1>
         <h1 th:if="${action.equals('edit')}">UPDATE TODO:</h1>
 
-        <br/><br/>
+        <br/>
 
         <a class="btn btn-link" style="display: inline-block"  href="/todo/list">back</a>
         <br/><br/>
@@ -23,7 +40,7 @@
         <form action="#" th:action="${action.equals('create') ? '/todo/add-todo' : '/todo/edit-todo'}" th:object="${todo}" method="post">
             <input type="hidden" th:field="*{id}" />
             <label th:for="description">Description: </label>
-            <input class="form-control" type="text" th:field="*{description}" />
+            <input class="form-control" type="text" th:field="*{description}" required />
             <br/>
             <input class="btn btn-secondary" type="submit" value="Submit" />
         </form>
